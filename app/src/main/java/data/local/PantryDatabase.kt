@@ -1,0 +1,32 @@
+package data.local
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+
+@Database(entities = [Ingredient::class], version = 1, exportSchema = false)
+abstract class PantryDatabase : RoomDatabase() {
+
+    abstract fun ingredientDao(): IngredientDAO
+
+    companion object {
+        @Volatile
+        private var INSTANCE: PantryDatabase? = null
+
+        fun getDatabase(context: Context): PantryDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    PantryDatabase::class.java,
+                    "pantry_database"
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
+
+                INSTANCE = instance
+                instance
+            }
+        }
+    }
+}
