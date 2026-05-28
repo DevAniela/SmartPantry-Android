@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -55,4 +56,31 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    // --- Lifecycle, ViewModel & Navigation (Arhitectura MVVM) ---
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
+    implementation("androidx.navigation:navigation-compose:2.8.0")
+
+    // --- Room (Baza de date locala) ---
+    val room_version = "2.6.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    ksp("androidx.room:room-compiler:2.6.1")
+
+    // --- Retrofit & Gson (Conectare la API rețete) ---
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+
+    // --- Coil (Descarcare poze retete de pe net in Jetpack Compose) ---
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
+    // --- CameraX (Pentru scanarea codurilor de bare / poze alimente) ---
+    val camerax_version = "1.3.3"
+    implementation("androidx.camera:camera-core:$camerax_version")
+    implementation("androidx.camera:camera-camera2:$camerax_version")
+    implementation("androidx.camera:camera-lifecycle:$camerax_version")
+    implementation("androidx.camera:camera-view:$camerax_version")
+
+    // --- WorkManager (Pentru notificari de fundal - alimente expirate) ---
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 }
